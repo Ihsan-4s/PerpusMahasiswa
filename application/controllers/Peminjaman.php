@@ -3,47 +3,39 @@ class Peminjaman extends CI_Controller
 {
 	public function __construct()
 	{
-		date_default_timezone_set('Asia/Jakarta');
 		parent::__construct();
 		$this->load->model('m_peminjaman');
+		$this->load->helper('url');
 	}
-
 	public function index()
 	{
-		$data['mahasiswa'] = $this->m_peminjaman->getMahasiswa();
-		$data['buku'] = $this->m_peminjaman->getBuku();
-
+		$data['peminjaman'] = $this->m_peminjaman->get_peminjaman();
 		$this->load->view('peminjaman/index', $data);
 	}
 
-	public function detail_peminjaman()
+	public function create()
 	{
-		$data = [
-			'mahasiswa_id' => $this->input->post('mahasiswa_id'),
-			'buku_id' => $this->input->post('buku_id'),
-			'tanggal_pinjam' => date('Y-m-d'),
-			'status' => 'dipinjam'
-		];
-
-		$hasil = $this->m_peminjaman->simpan($data);
-
-		if ($hasil) {
-			echo "<script>
-            alert('Peminjaman berhasil!');
-          </script>";
-			$data['daftar'] = $this->m_peminjaman->getAll();
-			redirect('peminjaman/detail');
-		} else {
-			echo "<script>
-            alert('Peminjaman gagal!');
-          </script>";
-		}
+		$data['mahasiswa'] = $this->m_peminjaman->get_mahasiswa();
+		$data['buku'] = $this->m_peminjaman->get_Buku();
+		$this->load->view('peminjaman/create', $data);
 	}
 
-	public function detail()
+	public function store()
 	{
-		$data['daftar'] = $this->m_peminjaman->getAll();
+		$data_pinjam = [
+			'mahasiswa_id' => $this->input->post('mahasiswa_id'),
+			'buku_id' => $this->input->post('buku_id'),
+			'tanggal_pinjam' => $this->input->post('tanggal_pinjam'),
+			'status' => 'dipinjam'
+		];
+		$simpan = $this->m_peminjaman->simpan_pinjam($data_pinjam);
 
-		$this->load->view('peminjaman/detail_peminjaman', $data);
+
+		if ($simpan) {
+
+			redirect('peminjaman');
+		} else {
+			echo "<script>alert('Gagal nyimpen data bro!'); window.history.back();</script>";
+		}
 	}
 }
