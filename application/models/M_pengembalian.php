@@ -22,4 +22,45 @@ class M_pengembalian extends CI_Model
 
 		return $this->db->get()->row();
 	}
+
+	public function kembalikan($data)
+	{
+		$this->db->trans_begin();
+		$this->db->insert('pengembalian', [
+			'peminjaman_id' => $data['peminjaman_id'],
+			'tanggal_kembali' => date('Y-m-d'),
+			'kondisi_buku' => $data['kondisi_buku']
+		]);
+
+		$this->db->where('id', $data['peminjaman_id']);
+		$this->db->update('peminjaman', [
+			'status' => 'dikembalikan'
+		]);
+
+
+		if ($data['kondisi_buku'] == 'baik') {
+
+			$this->db->set('stok', 'stok + 1', FALSE);
+			$this->db->where('id', $data['buku_id']);
+			$this->db->update('buku');
+
+		}
+
+		if ($data['kondisi_buku'] == 'rusak') {
+			$this->db->insert('denda', [
+				'pengembalian_id' => $this->db->insert_id(),
+				// 'nominal' => 100000,
+				'status_bayar' => false
+			]);
+
+		}
+
+		if ($this->db->trans_status() === FALSE) {
+			$this->db->trans_rollback();
+			return false;
+		}
+
+		$this->db->trans_commit();
+		return true;
+	}
 }
