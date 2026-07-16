@@ -5,9 +5,11 @@
 		<th>NAMA</th>
 		<th>JURUSAN</th>
 		<th>JUDUL</th>
+		<th>LOKASI_RAK</th>
 		<th>STATUS</th>
 		<th>TGL DIPINJAM</th>
 		<th>AKSI</th>
+		<th>NOMINAL DENDA</th>
 		<th>BAYAR DENDA</th>
 
 	</tr>
@@ -18,6 +20,7 @@
 			<td><?= $a->nama ?></td>
 			<td><?= $a->jurusan ?></td>
 			<td><?= $a->judul ?></td>
+			<td><?= $a->lokasi_rak ?></td>
 			<td><?= $a->status ?></td>
 			<td><?= $a->tanggal_pinjam ?></td>
 			<td>
@@ -27,11 +30,12 @@
 				</a>
 				<?php endif; ?>
 			</td>
+			<td>Rp. <?= number_format($a->nominal, 0, ',', '.') ?></td>
 			<td>
 				<?php if($a->status_bayar == true) : ?>
 				<form action="<?= base_url('denda/bayar') ?>" method="post" style="display:inline;">
 					<input type="hidden" name="id" value="<?= $a->pengembalian_id ?>">
-					<button type="submit">Bayar</button>
+					<button type="submit">Sudah Bayar</button>
 				</form>
 				<?php endif;?>
 			</td>

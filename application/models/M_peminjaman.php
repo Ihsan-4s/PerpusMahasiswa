@@ -55,6 +55,7 @@ class M_peminjaman extends CI_Model
         buku.lokasi_rak,
         peminjaman.tanggal_pinjam,
         peminjaman.status,
+		denda.nominal,
         pengembalian.id AS pengembalian_id,
         denda.status_bayar
     ');
