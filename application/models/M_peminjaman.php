@@ -1,7 +1,7 @@
 <?php
 class M_peminjaman extends CI_Model
 {
-	public function getMahasiswa()
+	public function get_mahasiswa()
 	{
 		$this->db->select('
         mahasiswa.id,
@@ -15,68 +15,47 @@ class M_peminjaman extends CI_Model
 
 		return $this->db->get()->result();
 	}
-
-	public function getBuku()
+	public function get_Buku()
 	{
 		$this->db->where('stok >', 0);
 
 		return $this->db->get('buku')->result();
 	}
 
-	public function simpan($data)
+	public function simpan_pinjam($data_pinjam)
 	{
-		$this->db->trans_begin();
-
-		$this->db->insert('peminjaman', $data);
-
-		$this->db->set('stok', 'stok - 1', FALSE);
-		$this->db->where('id', $data['buku_id']);
+		$this->db->trans_start();
+		$this->db->insert('peminjaman', $data_pinjam);
+		$this->db->set('stok', 'stok-1', FALSE);
+		$this->db->where('id', $data_pinjam['buku_id']);
 		$this->db->update('buku');
-
-		if ($this->db->trans_status() === FALSE) {
-			$this->db->trans_rollback();
-			return false;
-		} else {
-			$this->db->trans_commit();
-
-			return true;
-
-		}
+		$this->db->trans_complete();
+		return $this->db->trans_status();
 	}
 
-	public function getAll()
+
+	public function get_peminjaman()
 	{
 		$this->db->select('
         peminjaman.id,
-        users.nama,
-        mahasiswa.nim,
-        mahasiswa.jurusan,
-        buku.judul,
-        buku.lokasi_rak,
         peminjaman.tanggal_pinjam,
         peminjaman.status,
+        mahasiswa.nim,
+        users.nama,
+        buku.judul,
+        buku.lokasi_rak,
+        pengembalian.kondisi_buku,
 		denda.nominal,
-        pengembalian.id AS pengembalian_id,
-        denda.status_bayar
+		denda.status_bayar,
+		pengembalian.id AS pengembalian_id
     ');
 
 		$this->db->from('peminjaman');
 		$this->db->join('mahasiswa', 'mahasiswa.id = peminjaman.mahasiswa_id');
 		$this->db->join('users', 'users.id = mahasiswa.user_id');
 		$this->db->join('buku', 'buku.id = peminjaman.buku_id');
-
-		$this->db->join(
-			'pengembalian',
-			'pengembalian.peminjaman_id = peminjaman.id',
-			'left'
-		);
-
-		$this->db->join(
-			'denda',
-			'denda.pengembalian_id = pengembalian.id',
-			'left'
-		);
-
+		$this->db->join('pengembalian', 'pengembalian.peminjaman_id = peminjaman.id', 'left');
+		$this->db->join('denda', 'denda.pengembalian_id = pengembalian.id', 'left');
 		$this->db->group_start();
 
 		$this->db->where('peminjaman.status', 'dipinjam');
@@ -87,7 +66,7 @@ class M_peminjaman extends CI_Model
 		$this->db->group_end();
 
 		$this->db->group_end();
-
 		return $this->db->get()->result();
 	}
+
 }

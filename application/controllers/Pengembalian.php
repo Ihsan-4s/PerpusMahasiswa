@@ -1,40 +1,35 @@
 <?php
 class Pengembalian extends CI_Controller
 {
-    public function __construct()
-    {
-        parent::__construct();
-        date_default_timezone_set('Asia/Jakarta');
+	public function __construct()
+	{
+		parent::__construct();
+		date_default_timezone_set('Asia/Jakarta');
+		$this->load->model('m_pengembalian');
+	}
+	public function index($id)
+	{
+		$data['barang'] = $this->m_pengembalian->get_id($id);
+		$this->load->view('pengembalian/return', $data);
+	}
 
-        $this->load->model('m_pengembalian');
-    }
+	public function update()
+{
+    $data_kembalikan = [
+        'peminjaman_id'   => $this->input->post('peminjaman_id'),
+        'buku_id'         => $this->input->post('buku_id'), 
+        'tanggal_kembali' => $this->input->post('tanggal_kembali'),
+        'kondisi_buku'    => $this->input->post('kondisi_buku')
+    ];
 
-    // Menampilkan form pengembalian
-    public function pengembalian_buku($id)
-    {
-        $data['pinjam'] = $this->m_pengembalian->getById($id);
+    
+    $simpan = $this->m_pengembalian->kembalikan($data_kembalikan);
 
-        $this->load->view('peminjaman/pengembalian_buku', $data);
-    }
-
-    // Menyimpan pengembalian
-    public function detail_pengembalian()
-    {
-        $data = [
-            'peminjaman_id'   => $this->input->post('peminjaman_id'),
-            'buku_id'         => $this->input->post('buku_id'),
-            'kondisi_buku'    => $this->input->post('kondisi_buku')
-        ];
-
-        $hasil = $this->m_pengembalian->kembalikan($data);
-
-        if ($hasil)
-        {
-            redirect('peminjaman/detail');
-        }
-        else
-        {
-            echo "Pengembalian gagal";
-        }
+    if ($simpan) {
+        redirect('peminjaman');
+    } else {
+        echo "<script>alert('Gagal memproses pengembalian!'); window.history.back();</script>";
     }
 }
+}
+
