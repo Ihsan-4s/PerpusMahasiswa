@@ -78,7 +78,7 @@ class M_peminjaman extends CI_Model
 
 		$this->db->group_start();
 
-		$this->db->where('peminjaman.status', 'dipinjaam');
+		$this->db->where('peminjaman.status', 'dipinjam');
 
 		$this->db->or_group_start();
 		$this->db->where('peminjaman.status', 'dikembalikan');

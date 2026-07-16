@@ -21,7 +21,7 @@
 			<td><?= $a->status ?></td>
 			<td><?= $a->tanggal_pinjam ?></td>
 			<td>
-				<?php if($a->status == "dipinjaam") : ?>
+				<?php if($a->status == "dipinjam") : ?>
 				<a href="<?= base_url('pengembalian/pengembalian_buku/' . $a->id) ?>">
 					Kembalikan
 				</a>

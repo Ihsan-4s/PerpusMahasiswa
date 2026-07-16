@@ -22,7 +22,7 @@ class Peminjaman extends CI_Controller
 			'mahasiswa_id' => $this->input->post('mahasiswa_id'),
 			'buku_id' => $this->input->post('buku_id'),
 			'tanggal_pinjam' => date('Y-m-d'),
-			'status' => 'dipinjaam'
+			'status' => 'dipinjam'
 		];
 
 		$hasil = $this->m_peminjaman->simpan($data);
