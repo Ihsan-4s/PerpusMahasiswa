@@ -49,10 +49,12 @@
 					<?php endif; ?>
 				</td>
 				<td>
-					<form action="<?= base_url('denda/bayar') ?>" method="post" style="display:inline;">
-						<input type="hidden" name="id" value="<?= $p->pengembalian_id ?>">
-						<button type="submit">Sudah Bayar</button>
-					</form>
+					<?php if ($p->status == "dikembalikan"): ?>
+						<form action="<?= base_url('denda/bayar') ?>" method="post" style="display:inline;">
+							<input type="hidden" name="id" value="<?= $p->pengembalian_id ?>">
+							<button type="submit">Sudah Bayar</button>
+						</form>
+					<?php endif; ?>
 				</td>
 			</tr>
 		<?php endforeach; ?>
