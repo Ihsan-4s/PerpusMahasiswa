@@ -2,7 +2,7 @@
 <p>Tanggal: <?= $order->tanggal_order ?> | Status: <?= $order->status ?></p>
 
 <h3>Daftar Buku dalam Order</h3>
-<table border="1">
+<table border="1" cellpadding="10">
 <tr>
     <th>Judul</th>
     <th>Quantity Pesan</th>
@@ -28,7 +28,7 @@
     <input type="hidden" name="order_id" value="<?= $order->id ?>">
 
     <select name="buku_id" required>
-        <option value="">-- Pilih Buku --</option>
+        <option value=""> Pilih Buku </option>
         <?php foreach ($buku as $b): ?>
             <option value="<?= $b->id ?>"><?= $b->judul ?></option>
         <?php endforeach; ?>
@@ -40,6 +40,6 @@
 </form>
 
 <br>
-<a href="<?= base_url('penerimaan/tambah/'.$order->id) ?>">+ Input Penerimaan Buku untuk Order Ini</a>
+<a href="<?= base_url('penerimaan/tambah/'.$order->id) ?>"><button>+ Input Penerimaan Buku untuk Order Ini</button></a>
 <br><br>
-<a href="<?= base_url('order') ?>">Kembali ke Daftar Order</a>
+<a href="<?= base_url('order') ?>"><button>Kembali ke Daftar Order</button></a>

@@ -23,5 +23,5 @@
     </table>
     <br>
     <button type="submit">Update</button>
-    <a href="<?= base_url('buku') ?>">Batal</a>
 </form>
+<a href="<?= base_url('buku') ?>"><button>Batal</button></a>
