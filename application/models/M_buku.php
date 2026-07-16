@@ -47,4 +47,16 @@ class M_buku extends CI_Model {
 		$query = $this->db->get($this->table);
 		return $query->num_rows() > 0;
 	}
+
+	public function get_total_judul()
+	{
+		return $this->db->count_all($this->table);
+	}
+
+	public function get_total_stok()
+	{
+		$this->db->select_sum('stok');
+		$row = $this->db->get($this->table)->row();
+		return $row->stok ? $row->stok : 0;
+	}
 }
