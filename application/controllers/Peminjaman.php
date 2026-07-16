@@ -1,6 +1,4 @@
 <?php
-defined('BASEPATH') OR exit('No direct script access allowed');
-
 class Peminjaman extends CI_Controller
 {
 	public function __construct()
@@ -24,7 +22,7 @@ class Peminjaman extends CI_Controller
 			'mahasiswa_id' => $this->input->post('mahasiswa_id'),
 			'buku_id' => $this->input->post('buku_id'),
 			'tanggal_pinjam' => date('Y-m-d'),
-			'status' => 'dipinjam'
+			'status' => 'dipinjaam'
 		];
 
 		$hasil = $this->m_peminjaman->simpan($data);
