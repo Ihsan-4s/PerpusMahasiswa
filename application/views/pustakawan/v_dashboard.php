@@ -25,9 +25,11 @@
     </div>
 
     <div style="border:1px solid #ccc; padding:15px; min-width:200px;">
-        <!-- <h4>Peminjaman</h4>
-        <p>Sedang Dipinjam: <b><?= $peminjaman_aktif ?></b></p> -->
+        <h4>Peminjaman</h4>
+		 
+        <!-- <p>Sedang Dipinjam: <b><?= $peminjaman_aktif ?></b></p> -->
         <a href="<?= base_url('peminjaman') ?>">Kelola Peminjaman &raquo;</a>
+        <!-- <a href="<?= base_url('peminjaman') ?>">Detail Peminjaman &raquo;</a> -->
     </div>
 
     <div style="border:1px solid #ccc; padding:15px; min-width:200px;">
