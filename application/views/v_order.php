@@ -1,4 +1,5 @@
 <h2>Daftar Order Pembelian</h2>
+<a href="<?= base_url('pustakawan/dashboard') ?>">Kembali</a>
 <a href="<?= base_url('order/tambah') ?>">+ Tambah Order</a>
 
 <table border="1">

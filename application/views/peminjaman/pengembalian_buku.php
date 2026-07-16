@@ -1,3 +1,4 @@
+<a href="<?= base_url('pustakawan/dashboard') ?>">Kembali</a>
 <form action="<?= base_url('pengembalian/detail_pengembalian') ?>" method="post">
 
     <input type="hidden" name="peminjaman_id" value="<?= $pinjam->id ?>">

@@ -49,7 +49,7 @@ class M_pengembalian extends CI_Model
 		if ($data['kondisi_buku'] == 'rusak') {
 			$this->db->insert('denda', [
 				'pengembalian_id' => $this->db->insert_id(),
-				// 'nominal' => 100000,
+				'nominal' => 100000,
 				'status_bayar' => false
 			]);
 

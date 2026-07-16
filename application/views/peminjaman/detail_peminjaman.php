@@ -1,4 +1,5 @@
 <h1> Daftar mahasiswa</h1>
+<a href="<?= base_url('pustakawan/dashboard') ?>">Kembali</a>
 <table border="1">
 	<tr>
 		<th>NIM</th>

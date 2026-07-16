@@ -1,4 +1,6 @@
+<a href="<?= base_url('pustakawan/dashboard') ?>">Kembali</a>
 <form action="<?= base_url('peminjaman/detail_peminjaman') ?>" method="post">
+	
 
 	<label>Mahasiswa</label>
 	<select name="mahasiswa_id" required>
@@ -15,7 +17,7 @@
 
 	<label>Buku</label>
 	<select name="buku_id" required>
-		  <option value="" selected disabled>-- Pilih Buku --</option>
+		<option value="" selected disabled>-- Pilih Buku --</option>
 
 		<?php foreach ($buku as $b) { ?>
 			<option value="<?= $b->id ?>">

@@ -26,9 +26,9 @@
 
     <div style="border:1px solid #ccc; padding:15px; min-width:200px;">
         <h4>Peminjaman</h4>
-		 
         <!-- <p>Sedang Dipinjam: <b><?= $peminjaman_aktif ?></b></p> -->
         <a href="<?= base_url('peminjaman') ?>">Kelola Peminjaman &raquo;</a>
+        <a href="<?= base_url('peminjaman/detail') ?>">Kelola Pengembalian &raquo;</a>
         <!-- <a href="<?= base_url('peminjaman') ?>">Detail Peminjaman &raquo;</a> -->
     </div>
 
@@ -37,5 +37,5 @@
         <!-- <p>Belum Dibayar: <b><?= $denda_belum_bayar ?></b> transaksi</p> -->
         <!-- <p>Total: <b>Rp <?= number_format($total_nominal_denda, 0, ',', '.') ?></b></p> -->
     </div>
-
 </div>
+
