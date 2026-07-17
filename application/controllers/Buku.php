@@ -11,59 +11,66 @@ class Buku extends CI_Controller {
 
     public function index()
     {
-        $data['buku'] = $this->M_buku->get_all();
         $this->load->view('v_header');
-        $this->load->view('v_buku', $data);
+        $this->load->view('v_buku');
         $this->load->view('v_footer');
     }
 
-    public function tambah()
+    public function loaddata()
     {
-        $this->load->view('v_header');
-        $this->load->view('v_buku_tambah');
-        $this->load->view('v_footer');
+        $data = $this->M_buku->get_all();
+        echo json_encode($data);
     }
 
-    public function simpan()
+    public function simpan_ajax()
     {
         $judul = $this->input->post('judul');
+        $lokasi_rak = $this->input->post('lokasi_rak');
 
         if ($this->M_buku->cek_judul($judul)) {
-            $this->session->set_flashdata('error', 'Buku dengan judul tersebut sudah ada!');
-            redirect('buku/tambah');
+            echo json_encode(array('error' => true, 'message' => 'Judul buku sudah ada!'));
             return;
         }
 
-        $data = array(
-            'judul'      => $judul,
-            'lokasi_rak' => $this->input->post('lokasi_rak'),
-            'stok'       => 0
-        );
-        $this->M_buku->insert($data);
-        redirect('buku');
+        $this->M_buku->insert(array(
+            'judul' => $judul,
+            'lokasi_rak' => $lokasi_rak,
+            'stok' => 0
+        ));
+
+        echo json_encode(array('error' => false, 'message' => 'Buku berhasil ditambahkan'));
     }
 
-    public function edit($id)
+    public function get_buku()
     {
-        $data['buku'] = $this->M_buku->get_by_id($id);
-        $this->load->view('v_header');
-        $this->load->view('v_buku_edit', $data);
-        $this->load->view('v_footer');
+        $id = $this->input->post('id');
+        $buku = $this->M_buku->get_by_id($id);
+        echo json_encode($buku);
     }
 
-    public function update($id)
+    public function update_ajax()
     {
-        $data = array(
-            'judul'      => $this->input->post('judul'),
-            'lokasi_rak' => $this->input->post('lokasi_rak'),
-        );
-        $this->M_buku->update($id, $data);
-        redirect('buku');
+        $id = $this->input->post('id');
+        $judul = $this->input->post('judul');
+        $lokasi_rak = $this->input->post('lokasi_rak');
+
+        if ($this->M_buku->cek_judul($judul, $id)) {
+            echo json_encode(array('error' => true, 'message' => 'Judul buku sudah dipakai buku lain!'));
+            return;
+        }
+
+        $this->M_buku->update($id, array(
+            'judul' => $judul,
+            'lokasi_rak' => $lokasi_rak
+        ));
+
+        echo json_encode(array('error' => false, 'message' => 'Buku berhasil diupdate'));
     }
 
-    public function hapus($id)
+    public function hapus_ajax()
     {
+        $id = $this->input->post('id');
         $this->M_buku->delete($id);
-        redirect('buku');
+        echo json_encode(array('error' => false, 'message' => 'Buku berhasil dihapus'));
     }
 }
