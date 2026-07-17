@@ -5,6 +5,7 @@
 </head>
 <body>
 	<h2>Register Mahasiswa</h2>
+	<a href="<?= base_url('pustakawan/dashboard') ?>">Kembali</a>
 	<?php if($this->session->flashdata('success')): ?>
 		<div class="alert alert-success">
 			<?php echo $this->session->flashdata('success'); ?>

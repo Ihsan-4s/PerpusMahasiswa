@@ -1,5 +1,5 @@
 <h2>Riwayat Penerimaan Buku</h2>
-
+<a href="<?= base_url('pustakawan/dashboard') ?>">Kembali</a>
 <table border="1" cellpadding="10">
 <tr>
     <th>Tanggal</th>

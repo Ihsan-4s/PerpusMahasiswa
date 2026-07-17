@@ -65,5 +65,10 @@ class M_mahasiswa extends CI_Model{
 	{
 		return $this->db->where('status_anggota', TRUE)->count_all_results('mahasiswa');
 	}
+
+	public function get_denda_mahasiswa($mahasiswa_id)
+	{
+		return $this->db->select('denda.id, denda.nominal, denda.status_bayar, pengembalian.tanggal_kembali, buku.judul')->from('denda')->join('pengembalian', 'pengembalian.id = denda.pengembalian_id')->join('peminjaman', 'peminjaman.id = pengembalian.peminjaman_id')->join('buku', 'buku.id = peminjaman.buku_id')->where('peminjaman.mahasiswa_id', $mahasiswa_id)->get()->result();
+	}
 }
 ?>

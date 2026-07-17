@@ -1,5 +1,6 @@
 <h2>Daftar Buku</h2>
-<a href="<?= base_url('buku/tambah') ?>"><button>+ Tambah Buku</button></a>
+<a href="<?= base_url('pustakawan/dashboard') ?>">Kembali</a>
+<a href="<?= base_url('buku/tambah') ?>">+ Tambah Buku</a>
 
 <table border="1" cellpadding="10">
 <tr>

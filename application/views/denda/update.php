@@ -1,5 +1,6 @@
+<a href="<?= base_url('pustakawan/dashboard') ?>">Kembali</a>
 <h3>Edit Nominal Denda</h3>
-
+	
     <div class="form-container">
         <form action="<?= base_url('denda/proses_update') ?>" method="post">
             <input type="hidden" name="denda_id" value="<?= $denda->id ?>">
