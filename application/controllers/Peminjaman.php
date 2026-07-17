@@ -13,6 +13,12 @@ class Peminjaman extends CI_Controller
 		$this->load->view('peminjaman/index', $data);
 	}
 
+	public function sudah_diterima()
+	{
+		$data['peminjaman1'] = $this->m_peminjaman->get_peminjaman_detail();
+		$this->load->view('peminjaman/sudah_diterima', $data);
+	}
+
 	public function create()
 	{
 		$data['mahasiswa'] = $this->m_peminjaman->get_mahasiswa();
@@ -32,10 +38,9 @@ class Peminjaman extends CI_Controller
 
 
 		if ($simpan) {
-
 			redirect('peminjaman');
 		} else {
-			echo "<script>alert('Gagal nyimpen data bro!'); window.history.back();</script>";
+			echo "<script>alert('Gagal nyimpen data bro!');</script>";
 		}
 	}
 }

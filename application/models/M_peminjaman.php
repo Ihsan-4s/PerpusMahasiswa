@@ -69,4 +69,33 @@ class M_peminjaman extends CI_Model
 		return $this->db->get()->result();
 	}
 
+	public function get_peminjaman_detail()
+	{
+		$this->db->select('
+        peminjaman.id,
+        peminjaman.tanggal_pinjam,
+        peminjaman.status,
+        mahasiswa.nim,
+        users.nama,
+        buku.judul,
+        buku.lokasi_rak,
+        pengembalian.kondisi_buku,
+		denda.nominal,
+		denda.status_bayar,
+		pengembalian.id AS pengembalian_id
+    ');
+
+		$this->db->from('peminjaman');
+		$this->db->join('mahasiswa', 'mahasiswa.id = peminjaman.mahasiswa_id');
+		$this->db->join('users', 'users.id = mahasiswa.user_id');
+		$this->db->join('buku', 'buku.id = peminjaman.buku_id');
+		$this->db->join('pengembalian', 'pengembalian.peminjaman_id = peminjaman.id', 'left');
+		$this->db->join('denda', 'denda.pengembalian_id = pengembalian.id', 'left');
+		$this->db->where('peminjaman.status', 'dikembalikan');
+		// $this->db->or_group_start();
+		$this->db->where('pengembalian.kondisi_buku', 'baik');
+		// $this->db->group_end();
+		return $this->db->get()->result();
+	}
+
 }

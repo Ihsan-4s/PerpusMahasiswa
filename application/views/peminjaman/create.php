@@ -30,6 +30,6 @@
 
         <button type="submit">Pinjam Sekarang</button>
         <br><br>
-        <a href="<?= base_url('peminjaman') ?>">Kembali</a>
+        <a href="<?= base_url('peminjaman') ?>"> ← Kembali</a>
         
     </form>
