@@ -6,7 +6,7 @@ class Auth extends CI_controller{
 	}
 
 	public function index(){
-		if($this->session->userdata('is_logged_in')){
+		if($this->session->userdata('logged_in')){
 			$this->redirect_by_role($this->session->userdata('role'));
 			return;
 		}

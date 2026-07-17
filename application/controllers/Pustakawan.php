@@ -67,10 +67,10 @@ class Pustakawan extends CI_Controller
 
 	public function dashboard(){
 		$this->load->model('M_buku');
-		$data['calon_anggota']     = $this->M_mahasiswa->count_calon_anggota();
-    	$data['anggota_aktif']     = $this->M_mahasiswa->count_anggota_aktif();
-		$data['total_judul_buku']  = $this->M_buku->get_total_judul();
-    	$data['total_stok_buku']   = $this->M_buku->get_total_stok();
+		$data['calon_anggota'] = $this->M_mahasiswa->count_calon_anggota();
+        $data['anggota_aktif'] = $this->M_mahasiswa->count_anggota_aktif();
+		$data['total_judul_buku'] = $this->M_buku->get_total_judul();
+        $data['total_stok_buku'] = $this->M_buku->get_total_stok();
 		$this->load->view('v_header');
 		$this->load->view('pustakawan/v_dashboard', $data);
 		$this->load->view('v_footer');

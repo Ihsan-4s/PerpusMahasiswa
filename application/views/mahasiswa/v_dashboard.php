@@ -3,8 +3,8 @@
 <head><title>Dashboard Mahasiswa</title></head>
 <body>
 
-<h2>Halo, <?= html_escape($this->session->userdata('nama')) ?></h2>
-<p>NIM: <?= html_escape($mahasiswa->nim) ?> | Jurusan: <?= html_escape($mahasiswa->jurusan) ?></p>
+<h2>Halo, <?= $this->session->userdata('nama') ?></h2>
+<p>NIM: <?= $mahasiswa->nim ?> | Jurusan: <?=$mahasiswa->jurusan ?></p>
 <p><a href="<?= base_url('auth/logout') ?>">Logout</a></p>
 
 <h3>Buku yang Dipinjam</h3>
@@ -30,7 +30,6 @@
 <?php endif; ?>
 
 <h3>Denda</h3>
-
 <?php if (empty($denda)): ?>
     <p>Tidak ada denda.</p>
 <?php else: ?>
@@ -46,7 +45,7 @@
         <td><?= html_escape($d->judul) ?></td>
         <td><?= $d->tanggal_kembali ?></td>
         <td>Rp <?= number_format($d->nominal, 0, ',', '.') ?></td>
-        <td><?= $d->status_bayar ? 'Lunas' : 'Belum Bayar' ?></td>
+        <td><?= $d->status_bayar === "t" ? 'Lunas' : 'Belum Bayar' ?></td>
     </tr>
     <?php endforeach; ?>
 </table>

@@ -22,6 +22,7 @@ class Mahasiswa extends CI_Controller{
 
         $data['mahasiswa']  = $mhs;
         $data['peminjaman'] = $this->M_mahasiswa->get_peminjaman_mahasiswa($mhs->id);
+		$data['denda'] = $this->M_mahasiswa->get_denda_mahasiswa($mhs->id); 
 
         $this->load->view('mahasiswa/v_dashboard', $data);
     }

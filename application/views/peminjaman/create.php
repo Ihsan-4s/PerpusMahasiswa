@@ -1,5 +1,5 @@
 <h2>Tambah Peminjaman Buku</h2>
-    
+    <a href="<?= base_url('pustakawan/dashboard') ?>">Kembali</a>
     <form action="<?= base_url('peminjaman/store') ?>" method="post">
         
         <label>Mahasiswa:</label><br>
