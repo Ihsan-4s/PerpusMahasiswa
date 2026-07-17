@@ -8,9 +8,9 @@ class Denda extends CI_Controller
 		$this->load->helper('url');
 	}
 
-	public function index($id_peminjaman)
+	public function index($peminjaman_id)
 	{
-		$data['denda'] = $this->m_denda->get_by_id_peminjaman($id_peminjaman);
+		$data['denda'] = $this->m_denda->get_by_id_peminjaman($peminjaman_id);
 
 		if (!$data['denda']) {
 			echo "<script>alert('Data denda tidak ditemukan!');</script>";
