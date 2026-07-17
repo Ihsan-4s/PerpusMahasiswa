@@ -4,20 +4,36 @@
 <body>
 
 <h2>Login</h2>
-<?php echo password_hash('pust1234', PASSWORD_BCRYPT); ?>
-<?php if ($this->session->flashdata('error')): ?>
-    <p style="color:red;"><?= $this->session->flashdata('error') ?></p>
-<?php endif; ?>
 
-<form method="post" action="<?= site_url('auth') ?>">
     <label>Email</label><br>
-    <input type="email" name="email" required><br><br>
+    <input type="email" id="email" required><br><br>
 
     <label>Password</label><br>
-    <input type="password" name="password" required><br><br>
+    <input type="password" id="password" required><br><br>
+    <button type="submit" id="login-btn">Login</button>
 
-    <button type="submit">Login</button>
-</form>
-
+	<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function(){
+			document.getElementById('login-btn').addEventListener('click', function(){
+				$.ajax({
+					url: "<?= base_url('auth/proses_login') ?>",
+					type: 'POST',
+					dataType: 'json',
+					data: {
+						email: $('#email').val(),
+						password: $('#password').val()
+					},
+					success: function(response) {
+						if (response.error === false) {
+							window.location.href = response.redirect;
+						} else {
+							alert(response.message);
+						}
+					}
+				})
+			})
+		})
+	</script>
 </body>
 </html>
