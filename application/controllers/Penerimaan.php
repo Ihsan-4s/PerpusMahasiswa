@@ -19,14 +19,20 @@ class Penerimaan extends CI_Controller {
         $this->load->view('v_footer');
     }
 
-    public function tambah($order_id)
-{
-    $data['order']  = $this->M_order->get_by_id($order_id);
-    $data['detail'] = $this->M_order->get_detail($order_id);
-    $this->load->view('v_header');
-    $this->load->view('v_penerimaan_tambah', $data);
-    $this->load->view('v_footer');
-}
+	public function tambah($order_id)
+	{
+		$data['order']  = $this->M_order->get_by_id($order_id);
+		$data['detail'] = $this->M_order->get_detail($order_id);
+
+		foreach ($data['detail'] as $d) {
+			$total_diterima = $this->M_order->get_total_diterima($d->id);
+			$d->sisa = $d->quantity - $total_diterima;
+		}
+
+		$this->load->view('v_header');
+		$this->load->view('v_penerimaan_tambah', $data);
+		$this->load->view('v_footer');
+	}
 
     public function simpan()
     {

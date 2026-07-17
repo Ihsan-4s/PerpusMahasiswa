@@ -13,5 +13,5 @@
     </table>
     <br>
     <button type="submit">Simpan & Lanjut Isi Buku</button>
-    <a href="<?= base_url('order') ?>">Batal</a>
 </form>
+<a href="<?= base_url('order') ?>"><button>Batal</button></a>

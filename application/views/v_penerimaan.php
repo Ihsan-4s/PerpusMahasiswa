@@ -1,6 +1,6 @@
 <h2>Riwayat Penerimaan Buku</h2>
 
-<table border="1">
+<table border="1" cellpadding="10">
 <tr>
     <th>Tanggal</th>
     <th>Order</th>

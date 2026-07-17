@@ -13,6 +13,12 @@ class Peminjaman extends CI_Controller
 		$this->load->view('peminjaman/index', $data);
 	}
 
+	public function sudah_diterima()
+	{
+		$data['peminjaman1'] = $this->m_peminjaman->get_peminjaman_detail();
+		$this->load->view('peminjaman/sudah_diterima', $data);
+	}
+
 	public function create()
 	{
 		$data['mahasiswa'] = $this->m_peminjaman->get_mahasiswa();
