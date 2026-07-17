@@ -5,7 +5,6 @@ class M_penerimaan extends CI_Model {
 
     protected $table = 'penerimaan_buku';
 
-    // riwayat semua penerimaan, join biar keliatan judul buku & order
     public function get_all()
     {
         $this->db->select('penerimaan_buku.*, detail_order.buku_id, detail_order.order_id, buku.judul, order_pembelian.supplier');

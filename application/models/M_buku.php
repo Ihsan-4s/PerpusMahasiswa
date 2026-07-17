@@ -41,9 +41,12 @@ class M_buku extends CI_Model {
 		$this->db->update($this->table);
 	}
 
-	public function cek_judul($judul)
+	public function cek_judul($judul, $exclude_id = null)
 	{
 		$this->db->where('judul', $judul);
+		if ($exclude_id) {
+			$this->db->where('id !=', $exclude_id);
+		}
 		$query = $this->db->get($this->table);
 		return $query->num_rows() > 0;
 	}

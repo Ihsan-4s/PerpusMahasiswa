@@ -38,9 +38,15 @@ class Peminjaman extends CI_Controller
 
 
 		if ($simpan) {
-			redirect('peminjaman');
+			echo json_encode([
+				'status' => true,
+				'message' => 'berhasil'
+			]);
 		} else {
-			echo "<script>alert('Gagal nyimpen data bro!');</script>";
+			echo json_encode([
+				'status' => false,
+				'message' => 'gagal'
+			]);
 		}
 	}
 }

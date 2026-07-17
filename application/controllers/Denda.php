@@ -20,19 +20,23 @@ class Denda extends CI_Controller
 		$this->load->view('denda/update', $data);
 	}
 
-	// Proses simpan nominal dari form
 	public function proses_update()
 	{
 		$denda_id = $this->input->post('denda_id');
 		$nominal = $this->input->post('nominal');
 
-		// Panggil fungsi di model
 		$update = $this->m_denda->update_denda($denda_id, $nominal);
 
 		if ($update) {
-			redirect('peminjaman');
+			echo json_encode([
+				'status' => true,
+				'message' => 'berhasil'
+			]);
 		} else {
-			echo "<script>alert('Gagal update!');</script>";
+			echo json_encode([
+				'status' => false,
+				'message' => 'gagal'
+			]);
 		}
 	}
 
@@ -43,9 +47,15 @@ class Denda extends CI_Controller
 		$hasil = $this->m_denda->bayar($pengembalian_id);
 
 		if ($hasil) {
-			redirect('peminjaman');
+			echo json_encode([
+				'status' => true,
+				'message' => 'berhasil'
+			]);
 		} else {
-			echo "Pembayaran gagal";
+			echo json_encode([
+				'status' => false,
+				'message' => 'gagal'
+			]);
 		}
 	}
 
