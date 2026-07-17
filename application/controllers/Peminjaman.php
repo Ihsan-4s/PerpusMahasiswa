@@ -32,10 +32,9 @@ class Peminjaman extends CI_Controller
 
 
 		if ($simpan) {
-
 			redirect('peminjaman');
 		} else {
-			echo "<script>alert('Gagal nyimpen data bro!'); window.history.back();</script>";
+			echo "<script>alert('Gagal nyimpen data bro!');</script>";
 		}
 	}
 }
