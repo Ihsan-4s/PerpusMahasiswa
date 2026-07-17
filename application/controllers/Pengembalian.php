@@ -14,22 +14,28 @@ class Pengembalian extends CI_Controller
 	}
 
 	public function update()
-{
-    $data_kembalikan = [
-        'peminjaman_id'   => $this->input->post('peminjaman_id'),
-        'buku_id'         => $this->input->post('buku_id'), 
-        'tanggal_kembali' => $this->input->post('tanggal_kembali'),
-        'kondisi_buku'    => $this->input->post('kondisi_buku')
-    ];
+	{
+		$data_kembalikan = [
+			'peminjaman_id' => $this->input->post('peminjaman_id'),
+			'buku_id' => $this->input->post('buku_id'),
+			'tanggal_kembali' => $this->input->post('tanggal_kembali'),
+			'kondisi_buku' => $this->input->post('kondisi_buku')
+		];
 
-    
-    $simpan = $this->m_pengembalian->kembalikan($data_kembalikan);
 
-    if ($simpan) {
-        redirect('peminjaman');
-    } else {
-        echo "<script>alert('Gagal memproses pengembalian!'); window.history.back();</script>";
-    }
-}
+		$simpan = $this->m_pengembalian->kembalikan($data_kembalikan);
+
+		if ($simpan) {
+			echo json_encode([
+				'status' => true,
+				'message' => 'berhasil'
+			]);
+		} else {
+			echo json_encode([
+				'status' => false,
+				'message' => 'gagal'
+			]);
+		}
+	}
 }
 

@@ -28,9 +28,16 @@
 		<h4>Peminjaman</h4>
 
 		<!-- <p>Sedang Dipinjam: <b><?= $peminjaman_aktif ?></b></p> -->
+<<<<<<< HEAD
+		<a href="<?= base_url('peminjaman') ?>">Kelola Peminjaman &raquo;</a>
+		<?= '&nbsp'?> | <?= '&nbsp'?>
+		<a href="<?= base_url('peminjaman/sudah_diterima') ?>">Detail Pengembalian &raquo;</a>
+		<!-- <a href="<?= base_url('peminjaman') ?>">Detail Peminjaman &raquo;</a> -->
+=======
 		<a href="<?= base_url('peminjaman') ?>"><button>Kelola Peminjaman</button></a>
 		<br>
 		<a href="<?= base_url('peminjaman/sudah_diterima') ?>"><button>Detail Pengembalian</button></a>
+>>>>>>> b7385b754d74cac4e74aa21d0125ca72526bad1a
 		<h4>Denda</h4>
 		<a href="<?= base_url('peminjaman') ?>"><button>Kelola Denda</button></a>
 	</div>

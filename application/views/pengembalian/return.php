@@ -1,4 +1,4 @@
-<form action="<?= base_url('pengembalian/update') ?>" method="post">
+<form id="formReturn" method="post">
 
 	<input type="hidden" name="peminjaman_id" value="<?= $barang->id ?>">
 	<input type="hidden" name="buku_id" value="<?= $barang->buku_id ?>">
@@ -34,3 +34,33 @@
 	<button type="submit">Kembalikan</button>
 
 </form>
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+	$("#formReturn").submit(function (e) {
+    e.preventDefault(); 
+    $.ajax({
+        url: "<?= base_url('pengembalian/update') ?>",
+        type: "POST",
+        data: $(this).serialize(),
+        dataType: "json",
+        success: function (response) {
+            if (response.status) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Berhasil',
+                    text: response.message,
+                    timer: 1500,
+                    showConfirmButton: false
+                }).then(function() {
+                    window.location.href = "<?= base_url('peminjaman/index') ?>";
+                });
+            } else {
+                Swal.fire('Gagal', response.message, 'error');
+            }
+        }
+    });
+});
+
+</script>
