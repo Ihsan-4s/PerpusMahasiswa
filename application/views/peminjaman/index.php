@@ -57,7 +57,7 @@
 				</td>
 				<td>
 					<?php if ($p->status == "dikembalikan"): ?>
-						<form action="<?= base_url('denda/bayar') ?>" method="post" style="display:inline;">
+						<form id="bayarDenda" method="post" style="display:inline;">
 							<input type="hidden" name="id" value="<?= $p->pengembalian_id ?>">
 							<button type="submit">Sudah Bayar</button>
 						</form>
@@ -67,3 +67,33 @@
 		<?php endforeach; ?>
 	</tbody>
 </table>
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+<script>
+	$("#bayarDenda").submit(function (e) {
+    e.preventDefault(); 
+    $.ajax({
+        url: "<?= base_url('denda/bayar') ?>",
+        type: "POST",
+        data: $(this).serialize(),
+        dataType: "json",
+        success: function (response) {
+            if (response.status) {
+                Swal.fire({
+                    icon: 'success',
+                    title: 'Berhasil',
+                    text: response.message,
+                    timer: 1500,
+                    showConfirmButton: false
+                }).then(function() {
+                    window.location.href = "<?= base_url('peminjaman/index') ?>";
+                });
+            } else {
+                Swal.fire('Gagal', response.message, 'error');
+            }
+        }
+    });
+});
+
+</script>
+

@@ -30,9 +30,15 @@ class Denda extends CI_Controller
 		$update = $this->m_denda->update_denda($denda_id, $nominal);
 
 		if ($update) {
-			redirect('peminjaman');
+			echo json_encode([
+				'status' => true,
+				'message' => 'berhasil'
+			]);
 		} else {
-			echo "<script>alert('Gagal update!');</script>";
+			echo json_encode([
+				'status' => false,
+				'message' => 'gagal'
+			]);
 		}
 	}
 
@@ -43,9 +49,15 @@ class Denda extends CI_Controller
 		$hasil = $this->m_denda->bayar($pengembalian_id);
 
 		if ($hasil) {
-			redirect('peminjaman');
+			echo json_encode([
+				'status' => true,
+				'message' => 'berhasil'
+			]);
 		} else {
-			echo "Pembayaran gagal";
+			echo json_encode([
+				'status' => false,
+				'message' => 'gagal'
+			]);
 		}
 	}
 
