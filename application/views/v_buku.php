@@ -2,7 +2,7 @@
 <a href="<?= base_url('pustakawan/dashboard') ?>">Kembali</a>
 <a href="<?= base_url('buku/tambah') ?>">+ Tambah Buku</a>
 
-<table border="1">
+<table border="1" cellpadding="10">
 <tr>
     <th>Judul</th>
     <th>Rak</th>
@@ -14,10 +14,12 @@
     <td><?= $b->judul ?></td>
     <td><?= $b->lokasi_rak ?></td>
     <td><?= $b->stok ?></td>
-    <td>
-        <a href="<?= base_url('buku/edit/'.$b->id) ?>">Edit</a> |
-        <a href="<?= base_url('buku/hapus/'.$b->id) ?>">Hapus</a>
-    </td>
+	<td> 
+		<a href="<?= base_url('buku/edit/'.$b->id) ?>">Edit</a> 
+		&nbsp;|&nbsp; 
+		<a href="<?= base_url('buku/hapus/'.$b->id) ?>">Hapus</a> 
+	</td>
+
 </tr>
 <?php endforeach; ?>
 </table>
