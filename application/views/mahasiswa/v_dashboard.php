@@ -30,7 +30,6 @@
 <?php endif; ?>
 
 <h3>Denda</h3>
-<p><b>Total Denda Belum Dibayar: Rp <?= number_format($total_denda, 0, ',', '.') ?></b></p>
 
 <?php if (empty($denda)): ?>
     <p>Tidak ada denda.</p>

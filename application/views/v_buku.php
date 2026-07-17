@@ -14,9 +14,9 @@
     <td><?= $b->lokasi_rak ?></td>
     <td><?= $b->stok ?></td>
 	<td> 
-		<a href="<?= base_url('buku/edit/'.$b->id) ?>">Edit</a> 
+		<a href="<?= base_url('buku/edit/'.$b->id) ?>"><button>Edit</button></a> 
 		&nbsp;|&nbsp; 
-		<a href="<?= base_url('buku/hapus/'.$b->id) ?>">Hapus</a> 
+		<a href="<?= base_url('buku/hapus/'.$b->id) ?>"><button>Hapus</button></a> 
 	</td>
 
 </tr>
