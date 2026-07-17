@@ -1,5 +1,5 @@
 <?php
-class Auth extends CI_controller{
+Class Auth extends CI_controller{
 	public function __construct(){
 		parent::__construct();
 		$this->load->model('M_auth');
@@ -10,28 +10,38 @@ class Auth extends CI_controller{
 			$this->redirect_by_role($this->session->userdata('role'));
 			return;
 		}
-		if($this->input->post()){
-			$email = $this->input->post('email');
-			$password = $this->input->post('password');
-
-			$user = $this->M_auth->get_user_by_email($email);
-			if ($user && password_verify($password, $user->password)) {
-                $this->session->set_userdata(array(
-                    'logged_in' => TRUE,
-                    'user_id'   => $user->id,
-                    'nama'      => $user->nama,
-                    'email'     => $user->email,
-                    'role'      => $user->role,
-                ));
-                $this->redirect_by_role($user->role);
-                return;
-            }
-			$this->session->set_flashdata('error', 'Email atau password salah.');
-            redirect('auth');
-            return;
-		}
 		$this->load->view('auth/v_login');
 	}
+
+	public function proses_login()
+	{
+		$email = $this->input->post('email');
+		$password = $this->input->post('password');
+
+		$user = $this->M_auth->get_user_by_email($email);
+		if ($user && password_verify($password, $user->password)) {
+			$this->session->set_userdata(array(
+				'logged_in' => TRUE,
+				'user_id' => $user->id,
+				'nama' => $user->nama,
+				'email' => $user->email,
+				'role' => $user->role,
+			));
+
+			echo json_encode(array(
+				'error' => false,
+				'message' => 'Login berhasil.',
+				'redirect' => $user->role === 'pustakawan' ? base_url('pustakawan/dashboard') : base_url('mahasiswa/dashboard'),
+			));
+			return;
+		}
+
+		echo json_encode(array(
+			'error' => true,
+			'message' => 'Email atau password salah.',
+		));
+	}
+
 	public function logout()
     {
         $this->session->sess_destroy();
@@ -46,6 +56,4 @@ class Auth extends CI_controller{
             redirect('mahasiswa/dashboard');
         }
     }
-	
-
 }

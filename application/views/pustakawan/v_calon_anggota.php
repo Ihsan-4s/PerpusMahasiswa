@@ -7,16 +7,6 @@
 
     <h2>Calon Anggota Perpustakaan</h2>
 	<a href="<?= base_url('pustakawan/dashboard') ?>">Kembali</a>
-
-    <?php if ($this->session->flashdata('success')): ?>
-        <div class="alert alert-success">
-            <?= $this->session->flashdata('success') ?>
-        </div>
-    <?php endif; ?>
-
-    <?php if (empty($mahasiswa)): ?>
-        <p>Tidak ada calon anggota saat ini.</p>
-    <?php else: ?>
         <table border="1" cellpadding="8" cellspacing="0">
             <thead>
                 <tr>
@@ -29,25 +19,44 @@
             </thead>
             <tbody>
                 <?php foreach ($mahasiswa as $m): ?>
-                    <tr>
-                        <td><?= html_escape($m->nama) ?></td>
-                        <td><?= html_escape($m->email) ?></td>
-                        <td><?= html_escape($m->nim) ?></td>
-                        <td><?= html_escape($m->jurusan) ?></td>
-                        <td>
-                            <?= form_open('pustakawan/aktivasi_anggota') ?>
-                                <input type="hidden" name="mahasiswa_id" value="<?= $m->id ?>">
-                                <button type="submit"
-                                    onclick="return confirm('Registrasi <?= html_escape($m->nama) ?> sebagai anggota perpus?')">
-                                    Registrasi Anggota
-                                </button>
-                            <?= form_close() ?>
-                        </td>
-                    </tr>
-                <?php endforeach; ?>
+				<tr id="row-<?= $m->id ?>">
+					<td><?= $m->nama ?></td>
+					<td><?= $m->email ?></td>
+					<td><?= $m->nim ?></td>
+					<td><?= $m->jurusan ?></td>
+					<td>
+						<button type="button" class="btn-aktivasi" data-id="<?= $m->id ?>" data-nama="<?= $m->nama ?>">
+							Registrasi Anggota
+						</button>
+					</td>
+				</tr>
+				<?php endforeach; ?>
             </tbody>
         </table>
-    <?php endif; ?>
+		<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+        <script type="text/javascript">
+			$(document).ready(function(){
+				$('.btn-aktivasi').click(function(){
+					var id = $(this).data('id');
+					var nama = $(this).data('nama');
+					if (!confirm('Registrasi ' + nama + ' sebagai anggota perpus?')) {
+						return;
+					}
 
+					$.ajax({
+						url: "<?= base_url('pustakawan/aktivasi_anggota') ?>",
+						type: "POST",
+						dataType:'json',
+						data: {'mahasiswa_id': id,},
+						success: function(response){
+							alert(response.message);
+							if(response.error === false){
+								$('#row-' + id).remove();
+							}
+						}
+					})
+				})
+			})
+		</script>
 </body>
 </html>
