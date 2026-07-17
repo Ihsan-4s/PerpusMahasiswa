@@ -6,6 +6,7 @@
 <body>
 
     <h2>Calon Anggota Perpustakaan</h2>
+	<a href="<?= base_url('pustakawan/dashboard') ?>">Kembali</a>
 
     <?php if ($this->session->flashdata('success')): ?>
         <div class="alert alert-success">

@@ -1,45 +1,134 @@
-<h2>Detail Order #<?= $order->id ?> - <?= $order->supplier ?></h2>
-<p>Tanggal: <?= $order->tanggal_order ?> | Status: <?= $order->status ?></p>
+<h2 id="judulHalaman">Detail Order</h2>
+<p id="infoOrder"></p>
 
 <h3>Daftar Buku dalam Order</h3>
-<table border="1" cellpadding="10">
-<tr>
-    <th>Judul</th>
-    <th>Quantity Pesan</th>
-    <th>Sudah Diterima</th>
-    <th>Sisa</th>
-    <th>Aksi</th>
-</tr>
-<?php foreach ($detail as $d): ?>
-<tr>
-    <td><?= $d->judul ?></td>
-    <td><?= $d->quantity ?></td>
-    <td><?= $d->total_diterima ?></td>
-    <td><?= $d->sisa ?></td>
-    <td>
-        <a href="<?= base_url('order/hapus_detail/'.$d->id.'/'.$order->id) ?>">Hapus</a>
-    </td>
-</tr>
-<?php endforeach; ?>
+<table border="1" id="tabelDetail" cellpadding="10">
+    <thead>
+    <tr>
+        <th>Judul</th>
+        <th>Pesan</th>
+        <th>Diterima</th>
+        <th>Sisa</th>
+        <th>Aksi</th>
+    </tr>
+    </thead>
+    <tbody></tbody>
 </table>
 
 <h3>Tambah Buku ke Order</h3>
-<form action="<?= base_url('order/simpan_detail') ?>" method="post">
-    <input type="hidden" name="order_id" value="<?= $order->id ?>">
+<select id="buku_id"></select>
+<input type="number" id="quantity" placeholder="Jumlah" min="1">
+<button type="button" id="btnTambahDetail">Tambah</button>
 
-    <select name="buku_id" required>
-        <option value=""> Pilih Buku </option>
-        <?php foreach ($buku as $b): ?>
-            <option value="<?= $b->id ?>"><?= $b->judul ?></option>
-        <?php endforeach; ?>
-    </select>
-
-    <input type="number" name="quantity" placeholder="Jumlah" min="1" required>
-
-    <button type="submit">Tambah</button>
-</form>
-
-<br>
-<a href="<?= base_url('penerimaan/tambah/'.$order->id) ?>"><button>+ Input Penerimaan Buku untuk Order Ini</button></a>
 <br><br>
-<a href="<?= base_url('order') ?>"><button>Kembali ke Daftar Order</button></a>
+<a href="<?= base_url('penerimaan/tambah/'.$order_id) ?>">
+    <button type="button">+ Input Penerimaan Buku untuk Order Ini</button>
+</a>
+
+<br><br>
+<a href="<?= base_url('order') ?>">Kembali ke Daftar Order</a>
+
+<script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+<script type="text/javascript">
+$(document).ready(function() {
+    var order_id = <?= $order_id ?>;
+
+    function loadInfo() {
+        $.ajax({
+            url: "<?= base_url('order/get_order_info') ?>",
+            type: "POST",
+            dataType: "json",
+            data: { order_id: order_id },
+            success: function(response) {
+                var o = response.order;
+                $('#judulHalaman').text('Detail Order #' + o.id + ' - ' + o.supplier);
+                $('#infoOrder').text('Tanggal: ' + o.tanggal_order + ' | Status: ' + o.status);
+
+                var options = '<option value="">-- Pilih Buku --</option>';
+                for (var i = 0; i < response.buku.length; i++) {
+                    options += '<option value="' + response.buku[i].id + '">' + response.buku[i].judul + '</option>';
+                }
+                $('#buku_id').html(options);
+            }
+        });
+    }
+
+    function loaddataDetail() {
+        $.ajax({
+            url: "<?= base_url('order/loaddata_detail') ?>",
+            type: "POST",
+            dataType: "json",
+            data: { order_id: order_id },
+            success: function(response) {
+                var rows = '';
+                for (var i = 0; i < response.length; i++) {
+                    var d = response[i];
+                    rows += '<tr>';
+                    rows += '<td>' + d.judul + '</td>';
+                    rows += '<td>' + d.quantity + '</td>';
+                    rows += '<td>' + d.total_diterima + '</td>';
+                    rows += '<td>' + d.sisa + '</td>';
+                    rows += '<td><button class="btnHapusDetail" data-id="' + d.id + '">Hapus</button></td>';
+                    rows += '</tr>';
+                }
+                $('#tabelDetail tbody').html(rows);
+            }
+        });
+    }
+
+    loadInfo();
+    loaddataDetail();
+
+    $('#btnTambahDetail').on('click', function() {
+        var buku_id = $('#buku_id').val();
+        var quantity = $('#quantity').val();
+
+        if (!buku_id || !quantity) {
+            Swal.fire('Gagal', 'Pilih buku dan isi jumlah dulu', 'error');
+            return;
+        }
+
+        $.ajax({
+            url: "<?= base_url('order/simpan_detail_ajax') ?>",
+            type: "POST",
+            dataType: "json",
+            data: {
+                order_id: order_id,
+                buku_id: buku_id,
+                quantity: quantity
+            },
+            success: function(response) {
+                Swal.fire('Berhasil', response.message, 'success');
+                $('#quantity').val('');
+                loaddataDetail();
+            }
+        });
+    });
+
+    $('#tabelDetail').on('click', '.btnHapusDetail', function() {
+        var id = $(this).data('id');
+
+        Swal.fire({
+            title: 'Hapus item ini dari order?',
+            icon: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Ya, hapus'
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    url: "<?= base_url('order/hapus_detail_ajax') ?>",
+                    type: "POST",
+                    dataType: "json",
+                    data: { id: id },
+                    success: function(response) {
+                        Swal.fire('Terhapus', response.message, 'success');
+                        loaddataDetail();
+                    }
+                });
+            }
+        });
+    });
+});
+</script>

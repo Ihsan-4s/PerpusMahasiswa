@@ -1,8 +1,8 @@
 <?php
 class M_auth extends CI_Model{
-	public function __construct(){
-		parent::__construct();
-	}
+	// public function __construct(){
+	// 	parent::__construct();
+	// }
 
 	public function get_user_by_email($email){
 		return $this->db->where('email', $email)->get('users')->row();

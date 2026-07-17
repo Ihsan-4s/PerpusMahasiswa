@@ -1,4 +1,20 @@
 <h2>Tambah Peminjaman Buku</h2>
+<<<<<<< HEAD
+=======
+    <a href="<?= base_url('pustakawan/dashboard') ?>">Kembali</a>
+    <form action="<?= base_url('peminjaman/store') ?>" method="post">
+        
+        <label>Mahasiswa:</label><br>
+        <select name="mahasiswa_id" required>
+            <option value="">-- Pilih Mahasiswa --</option>
+            <?php foreach($mahasiswa as $m) : ?>
+                <option value="<?= $m->id ?>">
+                    <?= $m->nim ?> - <?= $m->nama ?>
+                </option>
+            <?php endforeach; ?>
+        </select>
+        <br><br>
+>>>>>>> b7385b754d74cac4e74aa21d0125ca72526bad1a
 
 <form id="formPinjam">
 	<label>Mahasiswa:</label><br>

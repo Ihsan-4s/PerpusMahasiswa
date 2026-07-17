@@ -12,61 +12,71 @@ class Order extends CI_Controller {
 
     public function index()
     {
-        $data['order'] = $this->M_order->get_all();
         $this->load->view('v_header');
-        $this->load->view('v_order', $data);
+        $this->load->view('v_order');
         $this->load->view('v_footer');
     }
 
-    public function tambah()
+    public function loaddata()
     {
-        $this->load->view('v_header');
-        $this->load->view('v_order_tambah');
-        $this->load->view('v_footer');
+        $data = $this->M_order->get_all();
+        echo json_encode($data);
     }
 
-    public function simpan()
+    public function simpan_ajax()
     {
-        $data = array(
+        $order_id = $this->M_order->insert(array(
             'supplier' => $this->input->post('supplier'),
-            'tanggal_order'  => $this->input->post('tanggal'),
-            'status'   => 'pending'
-        );
-        $order_id = $this->M_order->insert($data);
-        redirect('order/detail/'.$order_id);
+            'tanggal_order' => $this->input->post('tanggal'),
+            'status' => 'pending'
+        ));
+        echo json_encode(array('error' => false, 'message' => 'Order berhasil dibuat', 'order_id' => $order_id));
     }
 
     public function detail($order_id)
-	{
-		$data['order']  = $this->M_order->get_by_id($order_id);
-		$data['detail'] = $this->M_order->get_detail($order_id);
-		$data['buku']   = $this->M_buku->get_all();
-
-		// hitung total diterima per detail
-		foreach ($data['detail'] as $d) {
-			$d->total_diterima = $this->M_order->get_total_diterima($d->id);
-			$d->sisa = $d->quantity - $d->total_diterima;
-		}
-
-		$this->load->view('v_header');
-		$this->load->view('v_order_detail', $data);
-		$this->load->view('v_footer');
-	}
-
-    public function simpan_detail()
     {
-        $data = array(
+        $data['order_id'] = $order_id;
+        $this->load->view('v_header');
+        $this->load->view('v_order_detail', $data);
+        $this->load->view('v_footer');
+    }
+
+    public function get_order_info()
+    {
+        $order_id = $this->input->post('order_id');
+        $order = $this->M_order->get_by_id($order_id);
+        $buku = $this->M_buku->get_all();
+        echo json_encode(array('order' => $order, 'buku' => $buku));
+    }
+
+    public function loaddata_detail()
+    {
+        $order_id = $this->input->post('order_id');
+        $detail = $this->M_order->get_detail($order_id);
+
+        foreach ($detail as $d) {
+            $total_diterima = $this->M_order->get_total_diterima($d->id);
+            $d->total_diterima = $total_diterima;
+            $d->sisa = $d->quantity - $total_diterima;
+        }
+
+        echo json_encode($detail);
+    }
+
+    public function simpan_detail_ajax()
+    {
+        $this->M_order->insert_detail(array(
             'order_id' => $this->input->post('order_id'),
             'buku_id'  => $this->input->post('buku_id'),
             'quantity' => $this->input->post('quantity'),
-        );
-        $this->M_order->insert_detail($data);
-        redirect('order/detail/'.$this->input->post('order_id'));
+        ));
+        echo json_encode(array('error' => false, 'message' => 'Buku berhasil ditambahkan ke order'));
     }
 
-    public function hapus_detail($detail_id, $order_id)
+    public function hapus_detail_ajax()
     {
-        $this->M_order->delete_detail($detail_id);
-        redirect('order/detail/'.$order_id);
+        $id = $this->input->post('id');
+        $this->M_order->delete_detail($id);
+        echo json_encode(array('error' => false, 'message' => 'Item berhasil dihapus'));
     }
 }
