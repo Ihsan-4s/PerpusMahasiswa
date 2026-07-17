@@ -4,7 +4,7 @@
 <body>
 
 <h2>Login</h2>
-<!-- <?php echo password_hash('kampus12345', PASSWORD_BCRYPT); ?> -->
+<?php echo password_hash('pust1234', PASSWORD_BCRYPT); ?>
 <?php if ($this->session->flashdata('error')): ?>
     <p style="color:red;"><?= $this->session->flashdata('error') ?></p>
 <?php endif; ?>

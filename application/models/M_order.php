@@ -6,35 +6,30 @@ class M_order extends CI_Model {
     protected $table = 'order_pembelian';
     protected $table_detail = 'detail_order';
 
-    // ambil semua order
     public function get_all()
     {
         $query = $this->db->get($this->table);
         return $query->result();
     }
 
-    // ambil 1 order by id
     public function get_by_id($id)
     {
         $query = $this->db->get_where($this->table, array('id' => $id));
         return $query->row();
     }
 
-    // tambah order baru
     public function insert($data)
     {
         $this->db->insert($this->table, $data);
-        return $this->db->insert_id(); // buat langsung dipakai di detail
+        return $this->db->insert_id(); 
     }
 
-    // update status order (pending/half/selesai)
     public function update_status($id, $status)
     {
         $this->db->where('id', $id);
         $this->db->update($this->table, array('status' => $status));
     }
 
-    // ambil detail order + join nama buku
     public function get_detail($order_id)
     {
         $this->db->select('detail_order.*, buku.judul');
@@ -45,7 +40,6 @@ class M_order extends CI_Model {
         return $query->result();
     }
 
-    // ambil 1 detail order by id (dipakai di Penerimaan nanti)
     public function get_detail_by_id($detail_id)
     {
         $this->db->select('detail_order.*, buku.judul');
@@ -56,7 +50,6 @@ class M_order extends CI_Model {
         return $query->row();
     }
 
-    // tambah buku ke detail order
     public function insert_detail($data)
     {
         $this->db->insert($this->table_detail, $data);
@@ -79,7 +72,7 @@ class M_order extends CI_Model {
 
 	public function cek_status($order_id)
 	{
-		$detail = $this->get_detail($order_id); // sudah ada dari sebelumnya
+		$detail = $this->get_detail($order_id); 
 
 		$ada_diterima = false;
 		$semua_selesai = true;

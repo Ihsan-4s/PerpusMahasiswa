@@ -92,9 +92,7 @@ class M_peminjaman extends CI_Model
 		$this->db->join('pengembalian', 'pengembalian.peminjaman_id = peminjaman.id', 'left');
 		$this->db->join('denda', 'denda.pengembalian_id = pengembalian.id', 'left');
 		$this->db->where('peminjaman.status', 'dikembalikan');
-		// $this->db->or_group_start();
 		$this->db->where('pengembalian.kondisi_buku', 'baik');
-		// $this->db->group_end();
 		return $this->db->get()->result();
 	}
 
